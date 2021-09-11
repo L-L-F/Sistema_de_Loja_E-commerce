@@ -1,0 +1,69 @@
+
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <div class="p-5"></div>
+        <h2 >Lista de Compras</h2>
+        <p class="lead" >Histórico de produtos que foram comprados na Loja</p>
+    </div>
+    <div class="row g-5 ">
+        <div class="md-7 lg-8">
+            <div class="d-inline ">
+                <form th:action="@{/vendas/listarNome}"  method="get">
+                    <div class="d-flex justify-content-end">
+                        <div class="col-2">
+                            <label class="me-5">Filtrar por Cliente</label>
+                            <input class="form-control" type="text" th:value="${cliente}" th:name="cliente">
+                        </div>
+                        <div class="align-self-end">
+                        <button class="btn btn-primary ms-2" type="submit">Buscar</button>
+                         <a class="btn btn-secondary " th:href="@{/vendas/list}">Limpar</a>
+                        </div>
+                    </div>
+                </form>
+                <form th:action="@{/vendas/listarData}"  method="get">
+                    <div class="d-flex justify-content-end">
+                        <div class="col-2">
+                            <label class="me-5">Filtrar Data</label>
+                            <input class="form-control" type="date" th:value="${buscarData}" th:name="buscarData">
+                        </div>
+                        <div class="align-self-end">
+                            <button class="btn btn-primary ms-2" type="submit">Buscar</button>
+                            <a class="btn btn-secondary " th:href="@{/vendas/list}">Limpar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-1">Id</th>
+                        <th scope="col" class="col-2">Data</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col"class="col-1">Valor Total</th>
+                        <th scope="col"class="col-1">Detalhes</th>
+                    </tr>
+                </thead>
+                <tr th:each="v, i : ${vendas}">
+                    <td  scope="row" th:text="${v.id}"> </td>
+                    <td th:text="${#temporals.format(v.data,'dd/MM/yyyy')}"> </td>
+                    <td  scope="row" th:text="${v.cliente.nome}"> </td>
+                    <td th:text="${#numbers.formatCurrency(v.valorTotal())}"> </td>
+                    <td class="text-end"> 
+                        <a type="button" class="btn btn-outline-light btn-sm mt-1" th:href="@{/vendas/detalhes/{id}(id=${v.id})}">
+                            Ver
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="d-inline ">
+                <a class="btn btn-secondary" type="button" href="/">Início</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: modelfooter"></div>

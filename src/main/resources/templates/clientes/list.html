@@ -1,0 +1,58 @@
+
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <div class="p-5"></div>
+        <h2>Lista de Clientes</h2>
+        <p class="lead">Veja a lista de clientes cadastrados na Loja</p>
+
+    </div>
+
+    <div class="row g-5">
+
+        <div class="md-7 lg-8">
+             <div class="d-inline ">
+                <form th:action="@{/clientes/listarNome}"  method="get">
+                    <div class="d-flex justify-content-end">
+                        <div class="col-2">
+                            <label class="me-5">Filtrar Cliente</label>
+                            <input class="form-control" type="text" th:value="${cliente}" th:name="cliente">
+                        </div>
+                        <div class="align-self-end">
+                        <button class="btn btn-primary ms-2" type="submit">Buscar</button>
+                         <a class="btn btn-secondary " th:href="@{/clientes/list}">Limpar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-1">Id</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col" class="col-2">CPF</th>
+                        <th scope="col" class="col-2">Opções</th>
+                    </tr>
+                </thead>
+                <tr scope="row" th:each="c : ${clientesPF}">
+                    <td  scope="row" th:text="${c.id}"> </td>
+                    <td th:text="${c.nome}"> </td>
+                    <td th:text="${c.cpf}"> </td>
+                    <td> 
+                        <a class="btn btn-sm  btn-outline-light mt-1" th:href="@{/clientes/edit/{id}(id=${c.id})}">Editar</a>
+                        <a class="btn btn-sm  btn-outline-light mt-1" th:href="@{/vendas/listarCliente/{id}(id=${c.id})}">Vendas</a>
+                    </td>
+                </tr>
+                </tr>
+            </table>
+            <div class="d-inline ">
+                <a class="btn btn-secondary" type="button" href="/clientes/form">Cadastrar mais</a>
+            </div>
+        </div>
+         
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: modelfooter"></div>

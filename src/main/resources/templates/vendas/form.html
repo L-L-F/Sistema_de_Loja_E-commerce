@@ -1,0 +1,100 @@
+
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div class="container">
+    <div class="py-5 text-center">
+        <div class="p-5"></div>
+        <h2>Carrinho</h2>
+        <p class="lead">Lista de itens de produtos selecionados para a compra.</p>
+    </div>
+
+    <div class="">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="">Seu carrinho</span>
+            <span id="cont" class="badge bg-primary rounded-pill"></span>
+        </h4>
+        <th:block th:each="iv : ${session.venda.itensVenda}"> 
+            <ul id="cont" class="list-group mb-3 contItens">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0" th:text="${iv.produto.nome}"></h6>
+                        <small class="text-muted" th:text="${iv.produto.descricao}"></small>
+                    </div>
+
+                    <div>
+                        <span class="text-muted" th:text="${#numbers.formatCurrency(iv.produto.valor)}"></span>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <a class="btn btn-sm btn-danger btn-lg"  th:href="@{/vendas/removeitem/{id}(id=${iv.produto.id})}">Excluir</a>
+                        <span class="ms-2">Quantidade:</span>
+                        <strong th:text="${iv.qtd}"></strong>
+                    </div>
+                    <div class="ms-2">
+                        <spanz>Total (BRL)</span>
+                            <strong th:text="${#numbers.formatCurrency(iv.totalItem())}"></strong>
+                    </div>
+                </li>
+            </ul>
+        </th:block>
+        <ul id="cont" class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <form class="mb-0">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Código promocional">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary">Resgatar</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-success">
+                    <h6 class="my-0">Código de promoção</h6>
+                    <small>-</small>
+                </div>
+
+                <span class="text-success">-R$0</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <strong><span>Total Geral (BRL)</span></strong>
+                <strong th:text="${#numbers.formatCurrency(session.venda.valorTotal())}"></strong>
+            </li>
+        </ul>
+        <div class="d-inline ">
+            <form th:action="@{/vendas/save}" th:object="${clientePF}" method="post">
+                <div class="d-flex justify-content-between">
+                    <div sec:authorize="hasRole('ADMIN')" class="form-group col-3">
+                        <label for="exampleFormControlSelect2">Selecione um Cliente</label>
+                        <select th:name="id" class="form-control" id="exampleFormControlSelect2">
+                            <option th:value="null">-</option>
+                            <option th:each="c : ${clientesPF}" th:value="${c.id}" th:text="${c.nome}" th:name="cliente.id"></option>
+                        </select>
+
+                    </div>
+                    <br>
+                    <div class="mt-4">
+                        <a class="btn btn-secondary " type="button" href="/vendas/catalogo">Continuar Comprando</a>
+                        <button class="btn btn-primary " type="submit">Comprar</button>
+                    </div>
+                </div>
+        </form>
+        </div>
+            <div class="'alert alert-danger ps-2">
+                <div  th:text="${!#strings.isEmpty(erroItens)}?${erroItens}"></div>
+                <div th:text="${!#strings.isEmpty(erroCliente)}?${erroCliente}"></div>
+            </div>
+    </div>
+
+</div>
+</div>
+
+<script>
+
+    window.onload = () => {
+        let res = document.getElementById("cont");
+        let cont = document.getElementsByClassName("contItens");
+        res.innerHTML = cont.length;
+    }
+
+</script>
+<div th:replace="fragments/footer :: modelfooter"></div>

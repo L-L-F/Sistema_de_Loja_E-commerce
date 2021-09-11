@@ -1,0 +1,58 @@
+
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <div class="p-5"></div>
+        <h2>Lista de Produtos</h2>
+        <p class="lead">Veja os produtos cadastrados que estão no Catálogo da Loja</p>
+
+    </div>
+
+    <div class="row g-5">
+        <div class="md-7 lg-8">
+            <div class="d-inline ">
+                <form th:action="@{/produtos/listarProduto}"  method="get">
+                    <div class="d-flex justify-content-end">
+                        <div class="col-2">
+                            <label class="me-5">Filtrar Produto</label>
+                            <input class="form-control" type="text" th:value="${nomeProduto}" th:name="nomeProduto">
+                        </div>
+                        <div class="align-self-end">
+                        <button class="btn btn-primary ms-2" type="submit">Buscar</button>
+                         <a class="btn btn-secondary " th:href="@{/produtos/list}">Limpar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-1">Id</th>
+                        <th scope="col" >Nome</th>
+                        <th scope="col" class="col-5">Descrição</th>
+                        <th scope="col" class="col-1">Valor</th>
+                        <th scope="col" class="col-2 text-center">Opções</th>
+                    </tr>
+                </thead>
+                <tr scope="row" th:each="p : ${produtos}">
+                    <td  scope="row" th:text="${p.id}"> </td>
+                    <td th:text="${p.nome}"> </td>
+                    <td th:text="${p.descricao}"> </td>
+                    <td th:text="${#numbers.formatCurrency(p.valor)}"> </td>
+                    <td class="text-end"> 
+                        <a class="btn btn-outline-light btn-sm mt-1" th:href="@{/produtos/edit/{id}(id=${p.id})}">Editar</a>
+                        <a class="btn btn-outline-danger btn-sm mt-1" onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/produtos/remove/{id}(id=${p.id})}">Excluir</a>
+                    </td>
+                </tr>
+                </tr>
+            </table>
+            <div class="d-inline ">
+                <a class="btn btn-secondary" type="button" href="/produtos/form">Continuar cadastrando</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: modelfooter"></div>

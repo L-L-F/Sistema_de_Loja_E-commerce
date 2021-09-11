@@ -1,0 +1,58 @@
+
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <div class="p-5"></div>
+        <h2>Produtos</h2>
+        <p class="lead">Cadastre produtos diversos para o Catálogo da Loja</p>
+
+    </div>
+
+    <div class="row g-5">
+
+        <div class="md-7 lg-8">
+            <h4 class="mb-3">Formulário</h4>
+            <form class="needs-validation" th:action="${produto.id == null} ? @{/produtos/save} : @{/produtos/update}" th:object="${produto}" method="post">
+
+                <input type="hidden" th:field="*{id}">
+
+                <div class="row g-3">
+                    <div class="sm-6">
+                        <label for="name" class="form-label">Nome do produto</label>
+                        <input type="text" class="form-control" id="nomeProduto" placeholder="" value=""  th:field="*{nome}">
+                        <div class="alert-danger p-1 ps-2 mt-1" th:errors="${produto.nome}"></div>
+                    </div>
+                    <div class="sm-6">
+                        <label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
+                        <div class="form-group">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" th:field="*{descricao}" ></textarea>
+                        </div>
+                        <div class="alert-danger p-1 ps-2 mt-1" th:errors="${produto.descricao}"></div>
+                    </div>
+
+                    <div class="sm-6">
+                        <label for="valor" class="form-label">Valor</label>
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">R$</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" th:field="*{valor}" >
+                            <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                            </div>
+                        </div>
+                        <div class="alert-danger p-1 ps-2" th:errors="${produto.valor}"></div>
+                         <div class="d-block" th:text="${!#strings.isEmpty(erroValor)}?${erroValor}"></div>
+                    </div>
+                    <div class="d-inline ">
+                        <button class="btn btn-primary" type="submit">Cadastrar</button>
+                    </div>
+                    
+            </form>
+        </div>
+    </div>
+</div>
+    
+<div th:replace="fragments/footer :: modelfooter"></div>

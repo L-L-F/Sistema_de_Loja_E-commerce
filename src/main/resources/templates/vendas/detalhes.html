@@ -1,0 +1,53 @@
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <div class="p-5"></div>
+        <h2>Detalhes da Venda</h2>
+        <p class="lead">Veja os produtos da venda</p>
+
+    </div>
+
+    <div class="row g-5">
+        <div class="md-7 lg-8">
+
+            <ul id="cont" class="list-group mb-2 contItens bg-dark">
+                <li class="list-group-item d-flex justify-content-between lh-condensed bg-dark text-white">
+                    <strong><span class="" th:text="'Cliente: '+${itensVenda[0].venda.cliente.nome}"></span></strong>
+                    <strong><span th:text="'Cod Venda: '+${itensVenda[0].venda.id}"></span></strong>
+                    <strong><span th:text="'Data: '+${#temporals.format(itensVenda[0].venda.data,'dd/MM/yyyy')}"></span></strong>
+                </li>
+            </ul>
+
+            <table class="table table-hover table-dark m-0">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-1">Id</th>
+                        <th scope="col" >Produto</th>
+                        <th scope="col" class="col-2">Quantidade</th>
+                        <th scope="col" class="col-1">Valor Uni.</th>
+                        <th scope="col" class="col-2 text-center">Valor Itens</th>
+                    </tr>
+                </thead>
+                <tr scope="row" th:each="iv, cont : ${itensVenda}">
+                    <td scope="row" th:text="${cont.index+1}"> </td>
+                    <td th:text="${iv.produto.nome}"> </td>
+                    <td th:text="${iv.qtd}"> </td>
+                    <td th:text="${#numbers.formatCurrency(iv.produto.valor)}"> </td>
+                    <td class="text-end" th:text="${#numbers.formatCurrency(iv.totalItem())}"> </td>
+                </tr>
+            </table>
+            <div class="border d-flex justify-content-between p-2 mb-2 bg-dark text-white">
+                <strong><span>Total Geral (BRL)</span></strong>
+                <strong th:text="${#numbers.formatCurrency(itensVenda[0].venda.valorTotal())}"></strong>
+            </div>
+
+            <div class="d-inline ">
+                <a class="btn btn-secondary" type="button" href="/vendas/list">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: modelfooter"></div>

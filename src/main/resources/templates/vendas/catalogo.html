@@ -1,0 +1,49 @@
+
+<div th:replace="fragments/header :: modelheader"></div>
+
+<section class="py-5 text-center container">
+    <div class="p-5"></div>
+    <div class="row py-lg-1">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Catálogo de Ofertas</font></font></h1>
+            <p class="lead text-muted"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Encontre Ofertas Baratas de Celular e Smartphone, TV, Livros, Notebook, Geladeira e muitos outros produtos.</font></font></p>
+            
+        </div>
+    </div>
+</section>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        <div class="row row-cols-3 align-items-stretch py-5">
+            <th:block th:each="p : ${produtos}"> 
+                <div class="p-2">
+                    <div class="col">
+                        <div class="card card-cover overflow-hidden text-white bg-dark rounded-5 shadow-lg mb-3">
+                            <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" th:text="${p.nome}"></h2>
+                                <p class="lead text-muted" th:text="${p.descricao}"></p>
+                                <span class="badge badge-secondary fs-4 card-text mx-auto pb-3" th:text="${#numbers.formatCurrency(p.valor)}"></span>
+
+                                <form th:action="@{/vendas/add}" th:object="${itemVenda}" method="post">
+                                    <div class="input-group input-group-sm mb-3"> 
+                                        <input type="hidden" th:value="${p.id}" th:name="produto.id">
+                                        <input type="number" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" th:field="*{qtd}">
+                                        <div class="input-group-append">
+                                            
+                                            <button class="btn btn-primary" type="submit">Comprar</button>
+                                            
+                                        </div>
+                                    </div>
+                                     <div class="text-danger p-2 ps-2 mt-1" th:errors="${itemVenda.qtd}"></div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </th:block>
+
+            <div th:replace="fragments/footer :: modelfooter"></div>
